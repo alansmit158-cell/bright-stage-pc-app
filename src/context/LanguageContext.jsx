@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 import { translations } from '../utils/translations';
 import axios from 'axios';
+import { CONFIG } from '../config';
 
 const LanguageContext = createContext();
 

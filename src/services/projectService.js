@@ -1,4 +1,5 @@
 import api from './api';
+import { CONFIG } from '../config';
 
 export const projectService = {
     getAll: async () => {
