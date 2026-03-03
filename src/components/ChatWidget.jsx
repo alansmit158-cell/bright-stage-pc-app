@@ -4,8 +4,10 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import './ChatSystem.css';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
-const SOCKET_URL = `http://${window.location.hostname}:5000`;
+import { CONFIG } from '../config';
+
+const API_URL = CONFIG.API_URL;
+const SOCKET_URL = CONFIG.SOCKET_URL;
 
 const ChatWidget = () => {
     const { user } = useAuth();

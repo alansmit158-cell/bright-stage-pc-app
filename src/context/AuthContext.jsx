@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
+import { CONFIG } from '../config';
 
 const AuthContext = createContext(null);
 
@@ -27,9 +28,7 @@ export const AuthProvider = ({ children }) => {
                 return;
             }
             try {
-                // Determine API URL (matching your dynamic config)
-                const API_URL = `http://${window.location.hostname}:5000/api`;
-                const res = await axios.get(`${API_URL}/auth/me`);
+                const res = await axios.get(`${CONFIG.API_URL}/auth/me`);
                 setUser(res.data);
             } catch (err) {
                 console.error("Auth check failed:", err);
@@ -42,9 +41,8 @@ export const AuthProvider = ({ children }) => {
     }, []); // Run once on mount
 
     const login = async (email, password) => {
-        const API_URL = `http://${window.location.hostname}:5000/api`;
         try {
-            const res = await axios.post(`${API_URL}/auth/login`, { email, password });
+            const res = await axios.post(`${CONFIG.API_URL}/auth/login`, { email, password });
             setToken(res.data.token);
             setUser(res.data.user);
             return true;

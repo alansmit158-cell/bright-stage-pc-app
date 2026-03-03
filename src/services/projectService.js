@@ -45,27 +45,27 @@ export const projectService = {
     // For now keeping window.open but in a real app we'd fetch as blob with auth header
     downloadQuote: (id, company = 'bright') => {
         const token = localStorage.getItem('token');
-        window.open(`http://${window.location.hostname}:5000/api/projects/${id}/quote?token=${token}&company=${company}`, '_blank');
+        window.open(`${CONFIG.API_URL}/projects/${id}/quote?token=${token}&company=${company}`, '_blank');
     },
     downloadManifest: (id, company = 'bright') => {
         const token = localStorage.getItem('token');
-        window.open(`http://${window.location.hostname}:5000/api/projects/${id}/manifest?token=${token}&company=${company}`, '_blank');
+        window.open(`${CONFIG.API_URL}/projects/${id}/manifest?token=${token}&company=${company}`, '_blank');
     },
     downloadTransport: (id, company = 'bright') => {
         const token = localStorage.getItem('token');
-        window.open(`http://${window.location.hostname}:5000/api/projects/${id}/transport?token=${token}&company=${company}`, '_blank');
+        window.open(`${CONFIG.API_URL}/projects/${id}/transport?token=${token}&company=${company}`, '_blank');
     },
     downloadTransfer: (id, company = 'bright') => {
         const token = localStorage.getItem('token');
-        window.open(`http://${window.location.hostname}:5000/api/projects/${id}/transfer?token=${token}&company=${company}`, '_blank');
+        window.open(`${CONFIG.API_URL}/projects/${id}/transfer?token=${token}&company=${company}`, '_blank');
     },
     downloadInvoice: (id, company = 'bright') => {
         const token = localStorage.getItem('token');
-        window.open(`http://${window.location.hostname}:5000/api/projects/${id}/invoice?token=${token}&company=${company}`, '_blank');
+        window.open(`${CONFIG.API_URL}/projects/${id}/invoice?token=${token}&company=${company}`, '_blank');
     },
     downloadPrepList: (id) => {
         const token = localStorage.getItem('token');
-        window.open(`http://${window.location.hostname}:5000/api/projects/${id}/preplist?token=${token}`, '_blank');
+        window.open(`${CONFIG.API_URL}/projects/${id}/preplist?token=${token}`, '_blank');
     },
     toggleReady: async (id) => {
         try {

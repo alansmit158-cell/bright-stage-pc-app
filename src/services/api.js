@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { CONFIG } from '../config';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+const API_URL = CONFIG.API_URL;
 
 const api = axios.create({
     baseURL: API_URL,
