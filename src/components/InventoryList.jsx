@@ -179,6 +179,37 @@ const InventoryList = () => {
     const { user } = useAuth(); // Get user from context
     const { t } = useLanguage();
 
+    const getCategoryColor = (category) => {
+        const cat = (category || '').toLowerCase();
+
+        // Son
+        if (cat.includes('son') || cat.includes('xlr') || cat.includes('micro')) {
+            return { background: 'rgba(59, 130, 246, 0.2)', color: '#3b82f6' };
+        }
+        // Lumière
+        if (cat.includes('lumière') || cat.includes('dmx')) {
+            return { background: 'rgba(245, 158, 11, 0.2)', color: '#f59e0b' };
+        }
+        // Vidéo / LED
+        if (cat.includes('led') || cat.includes('image') || cat.includes('télé') || cat.includes('cinéma')) {
+            return { background: 'rgba(139, 92, 246, 0.2)', color: '#8b5cf6' };
+        }
+        // Câblage
+        if (cat.includes('câblage') || cat.includes('électrique') || cat.includes('distribution')) {
+            return { background: 'rgba(16, 185, 129, 0.2)', color: '#10b981' };
+        }
+        // Structure / Scène
+        if (cat.includes('structure') || cat.includes('scène') || cat.includes('tissus')) {
+            return { background: 'rgba(100, 116, 139, 0.2)', color: '#94a3b8' };
+        }
+        // Informatique
+        if (cat.includes('informatique') || cat.includes('bureautique')) {
+            return { background: 'rgba(79, 70, 229, 0.2)', color: '#6366f1' };
+        }
+
+        return { background: 'rgba(99, 102, 241, 0.2)', color: '#818cf8' }; // Default indigo
+    };
+
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
@@ -285,9 +316,9 @@ const InventoryList = () => {
                                         <span style={{
                                             padding: '4px 10px',
                                             borderRadius: '12px',
-                                            background: 'rgba(99, 102, 241, 0.2)',
-                                            color: '#818cf8',
-                                            fontSize: '12px'
+                                            ...getCategoryColor(item.category),
+                                            fontSize: '12px',
+                                            fontWeight: 'bold'
                                         }}>
                                             {item.category}
                                         </span>

@@ -5,7 +5,8 @@ import axios from 'axios';
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-    const [language, setLanguage] = useState('fr');
+    // Force French as the only language
+    const language = 'fr';
 
     const t = (key) => {
         return translations[language]?.[key] || key;
@@ -14,24 +15,13 @@ export const LanguageProvider = ({ children }) => {
     const API_URL = `http://${window.location.hostname}:5000/api`;
 
     const translateDynamic = async (text) => {
-        if (language === 'en') return text;
-
-        try {
-            const res = await axios.post(`${API_URL}/translate`, {
-                text: text,
-                targetLang: language
-            });
-            return res.data.translatedText;
-        } catch (e) {
-            console.error("Translation failed", e);
-            return text;
-        }
+        // No translation needed for French as it's the base/only language now 
+        // or we could keep it for dynamic server content if needed, but the user wants "only French"
+        return text;
     };
 
-    const changeLanguage = (lang) => {
-        if (translations[lang]) {
-            setLanguage(lang);
-        }
+    const changeLanguage = () => {
+        // Disabled
     };
 
     return (

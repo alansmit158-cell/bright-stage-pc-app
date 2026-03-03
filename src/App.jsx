@@ -152,8 +152,8 @@ const AuthenticatedApp = () => {
           )}
         </div>
 
-        {/* Language Switcher */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '5px', marginBottom: '10px' }}>
+        {/* Language Switcher - Disabled for French-only mode */}
+        {/* <div style={{ display: 'flex', justifyContent: 'center', gap: '5px', marginBottom: '10px' }}>
           {['en', 'fr', 'ar'].map(lang => (
             <button
               key={lang}
@@ -167,7 +167,7 @@ const AuthenticatedApp = () => {
               {lang.toUpperCase()}
             </button>
           ))}
-        </div>
+        </div> */}
 
         <nav style={{ flex: 1, overflowY: 'auto' }}>
 
