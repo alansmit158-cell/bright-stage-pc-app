@@ -24,7 +24,7 @@ const FlycaseScanner = () => {
         setLastAction(null);
 
         try {
-            const res = await axios.get(`http://localhost:5000/api/flycases/${qrCode}`);
+            const res = await axios.get(`${API_URL}/flycases/${qrCode}`);
             setFlycase(res.data);
             setScanInput(''); // Clear input for next scan
         } catch (err) {
@@ -39,7 +39,7 @@ const FlycaseScanner = () => {
         if (!flycase) return;
 
         try {
-            const res = await axios.put(`http://localhost:5000/api/flycases/${flycase.qrCodeID}/status`, {
+            const res = await axios.put(`${API_URL}/flycases/${flycase.qrCodeID}/status`, {
                 status: newStatus
             });
             setFlycase(res.data);

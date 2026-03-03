@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { CONFIG } from '../../config';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+const API_URL = CONFIG.API_URL;
 
 const ContractManager = () => {
     const [contracts, setContracts] = useState([]);

@@ -12,7 +12,7 @@ export const LanguageProvider = ({ children }) => {
         return translations[language]?.[key] || key;
     };
 
-    const API_URL = `http://${window.location.hostname}:5000/api`;
+    const API_URL = CONFIG.API_URL;
 
     const translateDynamic = async (text) => {
         // No translation needed for French as it's the base/only language now 

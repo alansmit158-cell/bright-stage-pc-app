@@ -5,7 +5,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Trash2 } from 'lucide-react';
 import './Logistics.css';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+import { CONFIG } from '../config';
+
+const API_URL = CONFIG.API_URL;
 
 const DeliveryNoteForm = () => {
     const { user } = useAuth();

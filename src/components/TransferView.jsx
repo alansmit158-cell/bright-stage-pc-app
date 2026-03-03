@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './TransferView.css';
+import { CONFIG } from '../config';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+const API_URL = CONFIG.API_URL;
 
 const TransferView = () => {
     const [projects, setProjects] = useState([]);

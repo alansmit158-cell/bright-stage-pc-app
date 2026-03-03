@@ -4,7 +4,9 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './Logistics.css';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+import { CONFIG } from '../config';
+
+const API_URL = CONFIG.API_URL;
 
 const DeliveryNoteList = () => {
     const { user } = useAuth();

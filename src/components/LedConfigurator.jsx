@@ -3,6 +3,9 @@ import { Box, Settings, Cpu, Zap, Maximize, Save, Layers, Grid, Monitor, LayoutD
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import './TransferView.css';
+import { CONFIG } from '../config';
+
+const API_URL = CONFIG.API_URL;
 
 // Default P3.9 Spec
 const DEFAULT_SPEC = {
@@ -75,7 +78,7 @@ const LedConfigurator = () => {
                 cabinetSpec: spec
             };
 
-            const res = await axios.post('http://localhost:5000/api/led-projects/calculate', payload);
+            const res = await axios.post(`${API_URL}/led-projects/calculate`, payload);
             setStats(res.data);
         } catch (err) {
             console.error("Calc Error", err);
@@ -600,7 +603,7 @@ const LedConfigurator = () => {
         if (!name) return;
 
         try {
-            await axios.post('http://localhost:5000/api/led-projects', {
+            await axios.post(`${API_URL}/led-projects`, {
                 projectName: name,
                 configType,
                 faceA,

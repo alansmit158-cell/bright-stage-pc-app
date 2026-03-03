@@ -3,7 +3,9 @@ import axios from 'axios';
 import './Logistics.css';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+import { CONFIG } from '../config';
+
+const API_URL = CONFIG.API_URL;
 
 const AuditDetailView = () => {
     const { id } = useParams();

@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import './Logistics.css'; // Reusing the same premium styling
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+import { CONFIG } from '../config';
+
+const API_URL = CONFIG.API_URL;
 
 const DriverView = () => {
     const { user } = useAuth();

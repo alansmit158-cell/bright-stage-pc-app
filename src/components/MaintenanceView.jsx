@@ -3,8 +3,9 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import './MaintenanceView.css';
+import { CONFIG } from '../config';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+const API_URL = CONFIG.API_URL;
 
 const MaintenanceView = () => {
     const location = useLocation();

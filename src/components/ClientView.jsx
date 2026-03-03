@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import './Logistics.css';
+import { CONFIG } from '../config';
 
 const ClientView = () => {
     const [clients, setClients] = useState([]);
@@ -11,7 +12,7 @@ const ClientView = () => {
     const [formData, setFormData] = useState({
         name: '', customId: '', type: 'Société', matriculeFiscal: '', email: '', phone: '', address: '', contactPerson: '', notes: ''
     });
-    const API_URL = `http://${window.location.hostname}:5000/api`;
+    const API_URL = CONFIG.API_URL;
 
     const [searchTerm, setSearchTerm] = useState('');
 

@@ -4,8 +4,9 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 import './DashboardView.css';
+import { CONFIG } from '../config';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+const API_URL = CONFIG.API_URL;
 
 const DashboardView = () => {
     const { user } = useAuth();

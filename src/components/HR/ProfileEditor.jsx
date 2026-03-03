@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+import { CONFIG } from '../../config';
+
+const API_URL = CONFIG.API_URL;
 
 const ProfileEditor = ({ user, onClose, onUpdate }) => {
     const [formData, setFormData] = useState({

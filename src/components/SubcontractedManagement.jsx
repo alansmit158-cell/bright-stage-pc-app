@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import { CONFIG } from '../config';
 
 const SubcontractedManagement = () => {
     const { t } = useLanguage();
@@ -14,7 +15,8 @@ const SubcontractedManagement = () => {
         name: '', brand: '', model: '', category: '', quantity: 0, costPerDay: 0, provider: '', notes: ''
     });
 
-    const API_URL = `http://${window.location.hostname}:5000/api/subcontracted`;
+    const API_URL = `${CONFIG.API_URL}/subcontracted`;
+
 
     useEffect(() => {
         loadItems();

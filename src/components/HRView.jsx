@@ -9,9 +9,9 @@ import AttendancePanel from './HR/AttendancePanel';
 import LeaveRequestsPanel from './HR/LeaveRequestsPanel';
 import ExpensesPanel from './HR/ExpensesPanel';
 
-import { useAuth } from '../context/AuthContext';
+import { CONFIG } from '../config';
 
-const API_URL = `http://${window.location.hostname}:5000/api`;
+const API_URL = CONFIG.API_URL;
 
 const HRView = () => {
     const { user } = useAuth();
