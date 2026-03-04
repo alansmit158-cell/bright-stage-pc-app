@@ -47,6 +47,23 @@ const DeliveryNoteList = () => {
         }
     };
 
+    const handleDownloadPdf = async (id, number) => {
+        try {
+            const res = await axios.get(`${API_URL}/delivery-notes/${id}/pdf`, {
+                responseType: 'blob'
+            });
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${number}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+        } catch (err) {
+            alert("Error downloading PDF");
+        }
+    };
+
     const formatDate = (dateString) => {
         if (!dateString) return '-';
         return new Date(dateString).toLocaleDateString('fr-FR', {
@@ -115,6 +132,12 @@ const DeliveryNoteList = () => {
                                         </span>
                                     </td>
                                     <td className="p-4 text-right">
+                                        <button
+                                            onClick={() => handleDownloadPdf(note._id, note.number)}
+                                            className="text-emerald-400 hover:text-emerald-300 mr-3 text-sm"
+                                        >
+                                            PDF
+                                        </button>
                                         <button
                                             onClick={() => navigate(`/delivery-notes/edit/${note._id}`)}
                                             className="text-blue-400 hover:text-blue-300 mr-3 text-sm"

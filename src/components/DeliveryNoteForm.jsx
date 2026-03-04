@@ -33,7 +33,8 @@ const DeliveryNoteForm = () => {
         driverCin: '',
         status: 'Draft',
         notes: '',
-        items: []
+        items: [],
+        isIndividual: false
     });
 
     useEffect(() => {
@@ -68,8 +69,9 @@ const DeliveryNoteForm = () => {
                     setFormData({
                         ...note,
                         date: note.date ? new Date(note.date).toISOString().split('T')[0] : '',
-                        project: note.project?._id || note.project,
-                        items: note.items || []
+                        project: note.project?._id || note.project || '',
+                        items: note.items || [],
+                        isIndividual: note.isIndividual || false
                     });
                 }
             } catch (err) {
@@ -158,10 +160,21 @@ const DeliveryNoteForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // Determine if it's an individual note (no project)
+            const payload = {
+                ...formData,
+                isIndividual: !formData.project
+            };
+
+            // Clean up project field if it's empty
+            if (!payload.project) {
+                delete payload.project;
+            }
+
             if (isEditMode) {
-                await axios.put(`${API_URL}/delivery-notes/${id}`, formData);
+                await axios.put(`${API_URL}/delivery-notes/${id}`, payload);
             } else {
-                await axios.post(`${API_URL}/delivery-notes`, formData);
+                await axios.post(`${API_URL}/delivery-notes`, payload);
             }
             navigate('/delivery-notes');
         } catch (err) {
@@ -182,14 +195,13 @@ const DeliveryNoteForm = () => {
                     {/* Row 1: Project & Date */}
                     <div className="grid grid-cols-2 gap-6">
                         <div className="form-group">
-                            <label className="block text-sm font-medium text-slate-400 mb-1">Projet *</label>
+                            <label className="block text-sm font-medium text-slate-400 mb-1">Projet</label>
                             <select
-                                required
                                 value={formData.project}
                                 onChange={e => setFormData({ ...formData, project: e.target.value })}
                                 className="w-full bg-slate-900 border border-slate-600 rounded px-3 py-2 text-white focus:border-blue-500 outline-none"
                             >
-                                <option value="">Sélectionner un projet...</option>
+                                <option value="">-- Sans Projet (BL Individuel) --</option>
                                 {projects.map(p => (
                                     <option key={p._id} value={p._id}>{p.eventName} ({p.siteName})</option>
                                 ))}
