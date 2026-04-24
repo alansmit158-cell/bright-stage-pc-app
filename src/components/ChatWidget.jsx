@@ -19,6 +19,18 @@ const ChatWidget = () => {
 
     // Initialize Socket
     useEffect(() => {
+        const isVercel = window.location.hostname.includes('vercel.app');
+
+        // Fetch History
+        api.get(`/messages`)
+            .then(res => setMessages(res.data))
+            .catch(err => console.error("Error fetching chat history", err));
+
+        if (isVercel) {
+            console.log("Socket.io disabled in Vercel production environment.");
+            return;
+        }
+
         const newSocket = io(SOCKET_URL);
         setSocket(newSocket);
 
@@ -29,11 +41,6 @@ const ChatWidget = () => {
         newSocket.on('receive_message', (message) => {
             setMessages((prev) => [...prev, message]);
         });
-
-        // Fetch History
-        api.get(`/messages`)
-            .then(res => setMessages(res.data))
-            .catch(err => console.error("Error fetching chat history", err));
 
         return () => newSocket.disconnect();
     }, [user]);
