@@ -59,5 +59,15 @@ export const inventoryService = {
             console.error("Error fetching item history", error);
             throw error;
         }
+    },
+
+    deleteAll: async () => {
+        try {
+            const response = await api.delete('/inventory/all');
+            return response.data;
+        } catch (error) {
+            console.error("Error deleting all items", error);
+            throw error;
+        }
     }
 };

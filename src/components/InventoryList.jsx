@@ -111,6 +111,28 @@ const InventoryList = () => {
         }
     };
 
+    const handleDeleteAll = async () => {
+        const confirm1 = window.confirm("🚨 DANGEROUS ACTION: Are you sure you want to delete EVERY item in the inventory?");
+        if (!confirm1) return;
+        
+        const confirm2 = window.prompt("Type 'DELETE ALL' to confirm this action:");
+        if (confirm2 !== 'DELETE ALL') {
+            alert("Action cancelled. Confirmation text did not match.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            await inventoryService.deleteAll();
+            alert("Inventory cleared successfully.");
+            loadInventory();
+        } catch (err) {
+            alert("Failed to clear inventory: " + (err.response?.data?.error || err.message));
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleViewHistory = async (item) => {
         setHistoryItem(item);
         setHistoryLoading(true);
@@ -186,6 +208,11 @@ const InventoryList = () => {
                             <button className="premium-btn secondary" onClick={handleDownloadQRs}>
                                 <Printer size={16} /> Global QR
                             </button>
+                            {user?.role === 'Founder' && (
+                                <button className="premium-btn danger-outline" onClick={handleDeleteAll}>
+                                    <Trash2 size={16} /> Clear All
+                                </button>
+                            )}
                             <button className="premium-btn primary" onClick={() => { setEditingItem(null); setShowForm(true); }}>
                                 <Plus size={18} /> {t('add_equip')}
                             </button>
@@ -378,6 +405,7 @@ const InventoryList = () => {
                 .premium-btn { padding: 12px 24px; border-radius: 16px; font-weight: 800; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none; font-size: 13px; display: flex; align-items: center; gap: 10px; }
                 .premium-btn.primary { background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
                 .premium-btn.secondary { background: rgba(255,255,255,0.03); color: #e2e8f0; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); }
+                .premium-btn.danger-outline { background: rgba(244, 63, 94, 0.05); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.2); }
                 .premium-btn:hover { transform: translateY(-3px); filter: brightness(1.15); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
                 .premium-btn:active { transform: translateY(-1px); }
 
