@@ -25,6 +25,7 @@ const DeliveryNoteList = () => {
     const [editingNoteId, setEditingNoteId] = useState(null);
     const [showCompanySelect, setShowCompanySelect] = useState(false);
     const [activeNote, setActiveNote] = useState(null);
+    const [documentType, setDocumentType] = useState('bl');
 
     useEffect(() => {
         fetchNotes();
@@ -53,16 +54,17 @@ const DeliveryNoteList = () => {
         }
     };
 
-    const handleDownloadPdf = async (id, number, companyId = 'bright') => {
+    const handleDownloadPdf = async (id, number, companyId = 'bright', type = 'bl') => {
         try {
-            showSuccess("Preparing PDF...", "System");
-            const res = await axios.get(`${API_URL}/delivery-notes/${id}/pdf?company=${companyId}`, {
+            showSuccess(`Preparing ${type === 'return' ? 'Bon de Retour' : 'BL'} PDF...`, "System");
+            const res = await axios.get(`${API_URL}/delivery-notes/${id}/pdf?company=${companyId}&type=${type}`, {
                 responseType: 'blob'
             });
+            const prefix = type === 'return' ? 'BR' : 'BL';
             const url = window.URL.createObjectURL(new Blob([res.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `BL-${number}.pdf`);
+            link.setAttribute('download', `${prefix}-${number}.pdf`);
             document.body.appendChild(link);
             link.click();
             link.parentNode.removeChild(link);
@@ -168,6 +170,7 @@ const DeliveryNoteList = () => {
                                         <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
                                             <button onClick={() => {
                                                 setActiveNote(note);
+                                                setDocumentType('bl');
                                                 setShowCompanySelect(true);
                                             }} className="row-action-btn pdf" title="Export PDF"><Download size={16} /></button>
                                             <button onClick={() => openEditModal(note._id)} className="row-action-btn edit" title="Modify registry"><Edit3 size={16} /></button>
@@ -212,15 +215,29 @@ const DeliveryNoteList = () => {
                     }}>
                         <div style={{ marginBottom: '25px' }}>
                             <div style={{ fontSize: '40px', marginBottom: '15px' }}>🏢</div>
-                            <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#fff', margin: '0' }}>Select Company</h2>
-                            <p style={{ color: '#94a3b8', marginTop: '10px' }}>Choose the company profile for this BL PDF</p>
+                            <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#fff', margin: '0' }}>Select Configuration</h2>
+                            <p style={{ color: '#94a3b8', marginTop: '10px' }}>Choose the document type and company profile</p>
                         </div>
+                        
+                        <div style={{ display: 'flex', gap: '10px', background: 'rgba(255,255,255,0.05)', padding: '5px', borderRadius: '12px', marginBottom: '25px' }}>
+                            <button 
+                                onClick={() => setDocumentType('bl')}
+                                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: 'none', fontWeight: '700', fontSize: '13px', cursor: 'pointer', transition: '0.2s', background: documentType === 'bl' ? '#6366f1' : 'transparent', color: documentType === 'bl' ? '#fff' : '#94a3b8' }}>
+                                Bon de Livraison
+                            </button>
+                            <button 
+                                onClick={() => setDocumentType('return')}
+                                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: 'none', fontWeight: '700', fontSize: '13px', cursor: 'pointer', transition: '0.2s', background: documentType === 'return' ? '#ef4444' : 'transparent', color: documentType === 'return' ? '#fff' : '#94a3b8' }}>
+                                Bon de Retour
+                            </button>
+                        </div>
+
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                            <button onClick={() => { handleDownloadPdf(activeNote._id, activeNote.number, 'bright'); setShowCompanySelect(false); }}
+                            <button onClick={() => { handleDownloadPdf(activeNote._id, activeNote.number, 'bright', documentType); setShowCompanySelect(false); }}
                                 style={{ padding: '16px', background: 'linear-gradient(135deg, #6366f1, #4f46e5)', color: '#fff', fontSize: '16px', fontWeight: '700', borderRadius: '16px', border: 'none', cursor: 'pointer' }}>
                                 🚀 Bright Stage
                             </button>
-                            <button onClick={() => { handleDownloadPdf(activeNote._id, activeNote.number, 'square'); setShowCompanySelect(false); }}
+                            <button onClick={() => { handleDownloadPdf(activeNote._id, activeNote.number, 'square', documentType); setShowCompanySelect(false); }}
                                 style={{ padding: '16px', background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#fff', fontSize: '16px', fontWeight: '700', borderRadius: '16px', border: 'none', cursor: 'pointer' }}>
                                 🔳 Square Event
                             </button>
