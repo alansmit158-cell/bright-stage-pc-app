@@ -282,8 +282,8 @@ const ProjectEditor = ({ project, onClose, onSave }) => {
                 await projectService.create(payload);
             }
             if (!silent) {
-                onSave();
-                onClose();
+                if (onSave) onSave();
+                if (onClose) onClose();
             }
             setLastSaved(new Date());
         } catch (err) {
