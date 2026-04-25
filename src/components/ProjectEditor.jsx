@@ -76,10 +76,10 @@ const ProjectEditor = ({ project, onClose, onSave }) => {
 
     // Availability Check Effect
     useEffect(() => {
-        if (formData.dates.start && formData.dates.end) {
+        if (formData.dates?.start && formData.dates?.end) {
             checkAvailability();
         }
-    }, [formData.dates.start, formData.dates.end]);
+    }, [formData.dates?.start, formData.dates?.end]);
 
     const fetchData = async () => {
         try {
@@ -109,7 +109,8 @@ const ProjectEditor = ({ project, onClose, onSave }) => {
                     clientId: fullProject.client?._id || project.clientId || '',
                     team: fullProject.team || { siteLeader: { name: '', phone: '' }, chefChantier: '' },
                     transport: fullProject.transport || { driverName: '', driverLicense: '', vehicleModel: '', vehiclePlate: '' },
-                    items: fullProject.items || []
+                    items: fullProject.items || [],
+                    dates: fullProject.dates || { start: '', end: '' }
                 });
             } else {
                 // Pre-fill from existing client if query param
