@@ -157,6 +157,8 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
                 isIndividual: !formData.project
             };
 
+            console.log("DEBUG: Sending Delivery Note Payload:", payload);
+
             // Clean up empty ObjectIds to prevent Mongoose CastError
             if (!payload.project || payload.project === "") delete payload.project;
             if (!payload.carrier || payload.carrier === "") delete payload.carrier;
