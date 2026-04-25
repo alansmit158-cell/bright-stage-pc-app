@@ -160,6 +160,7 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
             // Clean up empty ObjectIds to prevent Mongoose CastError
             if (!payload.project || payload.project === "") delete payload.project;
             if (!payload.carrier || payload.carrier === "") delete payload.carrier;
+            if (!payload.returnDate || payload.returnDate === "") payload.returnDate = null;
             
             if (payload.items) {
                 payload.items = payload.items.map(item => {
@@ -216,7 +217,23 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
                                 <label className="premium-label">Project / Event Name</label>
                                 <select
                                     value={formData.project}
-                                    onChange={e => setFormData({ ...formData, project: e.target.value })}
+                                    onChange={e => {
+                                        const projectId = e.target.value;
+                                        const project = projects.find(p => p._id === projectId);
+                                        if (project) {
+                                            setFormData(prev => ({
+                                                ...prev,
+                                                project: projectId,
+                                                date: project.dates?.start ? new Date(project.dates.start).toISOString().split('T')[0] : prev.date,
+                                                returnDate: project.dates?.end ? new Date(project.dates.end).toISOString().split('T')[0] : prev.returnDate,
+                                                driverName: project.transport?.driverName || prev.driverName,
+                                                vehiclePlate: project.transport?.vehiclePlate || prev.vehiclePlate,
+                                                vehicleModel: project.transport?.vehicleModel || prev.vehicleModel
+                                            }));
+                                        } else {
+                                            setFormData(prev => ({ ...prev, project: projectId }));
+                                        }
+                                    }}
                                     className="premium-field-input"
                                 >
                                     <option value="">-- Sans Projet (BL Individuel) --</option>
