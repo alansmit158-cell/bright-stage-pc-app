@@ -231,7 +231,12 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
                                                 returnDate: project.dates?.end ? new Date(project.dates.end).toISOString().split('T')[0] : prev.returnDate,
                                                 driverName: project.transport?.driverName || prev.driverName,
                                                 vehiclePlate: project.transport?.vehiclePlate || prev.vehiclePlate,
-                                                vehicleModel: project.transport?.vehicleModel || prev.vehicleModel
+                                                vehicleModel: project.transport?.vehicleModel || prev.vehicleModel,
+                                                items: project.items && project.items.length > 0 ? project.items.map(i => ({
+                                                    inventoryItem: i.inventoryItem?._id || i.inventoryItem,
+                                                    name: i.inventoryItem?.name || i.name || (i.inventoryItem && i.inventoryItem.name) || 'Article sans nom',
+                                                    quantity: i.quantity || 1
+                                                })) : prev.items
                                             }));
                                         } else {
                                             setFormData(prev => ({ ...prev, project: projectId }));
