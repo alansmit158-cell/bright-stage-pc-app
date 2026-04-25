@@ -294,8 +294,8 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
                                     <div key={index} style={{ display: 'flex', gap: '15px', background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '14px', alignItems: 'center' }}>
                                         <div style={{ flex: 2 }}>
                                             <select value={item.inventoryItem} onChange={e => updateItem(index, 'inventoryItem', e.target.value)} style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '13px', width: '100%', outline: 'none' }}>
-                                                <option value="">-- Browse Inventory --</option>
-                                                {inventory.map(inv => <option key={inv._id} value={inv._id}>{inv.name}</option>)}
+                                                <option value="" style={{ background: '#0f172a', color: '#fff' }}>-- Browse Inventory --</option>
+                                                {inventory.map(inv => <option key={inv._id} value={inv._id} style={{ background: '#0f172a', color: '#fff' }}>{inv.name}</option>)}
                                             </select>
                                         </div>
                                         <div style={{ flex: 1.5 }}><input type="text" value={item.name} onChange={item => updateItem(index, 'name', item.target.value)} placeholder="Custom designation" style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '13px', width: '100%', outline: 'none' }} /></div>
