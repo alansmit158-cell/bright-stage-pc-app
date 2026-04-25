@@ -24,6 +24,7 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
     const [formData, setFormData] = useState({
         project: '',
         date: new Date().toISOString().split('T')[0],
+        returnDate: '',
         carrier: '',
         vehiclePlate: '',
         vehicleModel: '',
@@ -59,6 +60,7 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
                     setFormData({
                         ...note,
                         date: note.date ? new Date(note.date).toISOString().split('T')[0] : '',
+                        returnDate: note.returnDate ? new Date(note.returnDate).toISOString().split('T')[0] : '',
                         project: note.project?._id || note.project || '',
                         items: note.items || [],
                         isIndividual: note.isIndividual || false
@@ -209,7 +211,7 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
 
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
                     <div style={{ padding: '30px 40px', overflowY: 'auto', flex: 1, minHeight: 0 }}>
-                        <div className="grid-2-cols" style={{ gap: '25px', marginBottom: '30px' }}>
+                        <div className="grid-3-cols" style={{ gap: '25px', marginBottom: '30px' }}>
                             <div>
                                 <label className="premium-label">Project / Event Name</label>
                                 <select
@@ -230,6 +232,15 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
                                     required
                                     value={formData.date}
                                     onChange={e => setFormData({ ...formData, date: e.target.value })}
+                                    className="premium-field-input"
+                                />
+                            </div>
+                            <div>
+                                <label className="premium-label">Return Date</label>
+                                <input
+                                    type="date"
+                                    value={formData.returnDate}
+                                    onChange={e => setFormData({ ...formData, returnDate: e.target.value })}
                                     className="premium-field-input"
                                 />
                             </div>
@@ -333,6 +344,7 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
 
             <style>{`
                 .grid-2-cols { display: grid; grid-template-columns: 1fr 1fr; }
+                .grid-3-cols { display: grid; grid-template-columns: 1.5fr 1fr 1fr; }
             `}</style>
         </div>
     );
