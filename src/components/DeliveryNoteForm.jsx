@@ -57,6 +57,7 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
                 if (isEditMode) {
                     const noteRes = await axios.get(`${API_URL}/delivery-notes/${id}`);
                     const note = noteRes.data;
+                    console.log("DEBUG: Loading Note Data:", note);
                     setFormData({
                         ...note,
                         date: note.date ? new Date(note.date).toISOString().split('T')[0] : '',
