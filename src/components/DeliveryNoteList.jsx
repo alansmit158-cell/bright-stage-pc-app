@@ -10,7 +10,7 @@ import { CONFIG } from '../config';
 const API_URL = CONFIG.API_URL;
 
 const DeliveryNoteList = () => {
-    const { user } = useAuth();
+    const { user, token } = useAuth();
     const { showSuccess, showError } = useNotification();
 
     const canAccess = ['Founder', 'Manager', 'Site Manager'].includes(user?.role);
@@ -55,23 +55,45 @@ const DeliveryNoteList = () => {
     };
 
     const handleDownloadPdf = async (id, number, companyId = 'bright', type = 'bl') => {
+        showSuccess(`Preparing ${type === 'return' ? 'Bon de Retour' : 'BL'} PDF...`, "System");
         try {
-            showSuccess(`Preparing ${type === 'return' ? 'Bon de Retour' : 'BL'} PDF...`, "System");
-            const res = await axios.get(`${API_URL}/delivery-notes/${id}/pdf?company=${companyId}&type=${type}`, {
-                responseType: 'blob'
-            });
+            const authToken = token || localStorage.getItem('token');
             const prefix = type === 'return' ? 'BR' : 'BL';
-            const url = window.URL.createObjectURL(new Blob([res.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `${prefix}-${number}.pdf`);
-            document.body.appendChild(link);
-            link.click();
-            link.parentNode.removeChild(link);
+            const filename = `${prefix}-${number}.pdf`;
+            const downloadUrl = `${API_URL}/delivery-notes/${id}/pdf?company=${companyId}&type=${type}&token=${authToken}`;
+
+            if (window.require) {
+                const { ipcRenderer } = window.require('electron');
+
+                // Strategy 1: Node.js http download → save to Downloads folder
+                const result = await ipcRenderer.invoke('download-pdf', { url: downloadUrl, filename });
+                if (result.success) {
+                    showSuccess(`✅ PDF enregistré dans Téléchargements: ${filename}`, "Done");
+                    return;
+                }
+                console.warn('Node.js download failed:', result.error, '— trying shell.openExternal...');
+
+                // Strategy 2: Open in system browser (Edge/Chrome), not Electron
+                const extResult = await ipcRenderer.invoke('open-pdf-external', { url: downloadUrl });
+                if (extResult.success) {
+                    showSuccess(`PDF ouvert dans le navigateur`, "Done");
+                    return;
+                }
+            }
+
+            // Strategy 3: Fallback iframe (web / non-Electron)
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            iframe.src = downloadUrl;
+            setTimeout(() => { if (iframe.parentNode) iframe.parentNode.removeChild(iframe); }, 30000);
+
         } catch (err) {
-            showError("PDF generation failed", "Error");
+            console.error('PDF download error:', err);
+            showError("PDF generation failed: " + err.message, "Error");
         }
     };
+
 
     const openCreateModal = () => {
         setEditingNoteId(null);

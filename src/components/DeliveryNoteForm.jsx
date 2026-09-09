@@ -34,7 +34,8 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
         status: 'Draft',
         notes: '',
         items: [],
-        isIndividual: false
+        isIndividual: false,
+        address: ''
     });
 
     useEffect(() => {
@@ -229,6 +230,7 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
                                                 project: projectId,
                                                 date: project.dates?.start ? new Date(project.dates.start).toISOString().split('T')[0] : prev.date,
                                                 returnDate: project.dates?.end ? new Date(project.dates.end).toISOString().split('T')[0] : prev.returnDate,
+                                                address: project.siteAddress || prev.address,
                                                 driverName: project.transport?.driverName || prev.driverName,
                                                 vehiclePlate: project.transport?.vehiclePlate || prev.vehiclePlate,
                                                 vehicleModel: project.transport?.vehicleModel || prev.vehicleModel,
@@ -269,6 +271,16 @@ const DeliveryNoteForm = ({ onClose, onSuccess, id: editId }) => {
                                     className="premium-field-input"
                                 />
                             </div>
+                        </div>
+                        <div style={{ marginBottom: '25px' }}>
+                            <label className="premium-label">Destination Address / Lieu de Livraison</label>
+                            <input
+                                type="text"
+                                value={formData.address || ''}
+                                onChange={e => setFormData({ ...formData, address: e.target.value })}
+                                className="premium-field-input"
+                                placeholder="Full address for equipment delivery..."
+                            />
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>

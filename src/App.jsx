@@ -7,40 +7,23 @@ import { ConfirmProvider } from './context/ConfirmContext';
 
 // View Components
 import LoginView from './components/LoginView';
+import DashboardView from './components/DashboardView';
+import ComingSoon from './components/ComingSoon';
+import ChatWidget from './components/ChatWidget';
+
+// ✅ Magasin (Inventory / Store)
 import InventoryList from './components/InventoryList';
 import InventoryForm from './components/InventoryForm';
-import ClientView from './components/ClientView';
-import ProjectList from './components/ProjectList';
-import ProjectEditor from './components/ProjectEditor';
-import MaintenanceView from './components/MaintenanceView';
-import TransferView from './components/TransferView';
-import HRView from './components/HRView';
-import DashboardView from './components/DashboardView';
+import FlycaseScanner from './components/FlycaseScanner';
+import QRCodeScreen from './components/QRCodeScreen';
+
+// ✅ Logistique
 import DriverView from './components/DriverView';
-import FreelancerView from './components/FreelancerView';
-import WorkersView from './components/WorkersView';
-import VehicleView from './components/VehicleView';
 import CarrierView from './components/CarrierView';
+import VehicleView from './components/VehicleView';
 import DeliveryNoteList from './components/DeliveryNoteList';
 import DeliveryNoteForm from './components/DeliveryNoteForm';
-import CalendarView from './components/CalendarView';
-import AuditListView from './components/AuditListView';
-import AuditDetailView from './components/AuditDetailView';
-import QRCodeScreen from './components/QRCodeScreen';
-import QuotesList from './components/QuotesList';
-import QuoteBuilder from './components/QuoteBuilder';
-import InvoiceList from './components/InvoiceList';
-import InvoiceBuilder from './components/InvoiceBuilder';
-import FinancialReportsView from './components/FinancialReportsView';
-import OverdueInvoices from './components/OverdueInvoices';
-import SettingsView from './components/SettingsView';
-import FiscalDashboard from './components/FiscalDashboard';
-import StructureCalcView from './components/StructureCalcView';
-import SubcontractedManagement from './components/SubcontractedManagement';
-import LedConfigurator from './components/LedConfigurator';
-import StageConfigurator from './components/StageConfigurator';
-import FlycaseScanner from './components/FlycaseScanner';
-import ChatWidget from './components/ChatWidget';
+import TransferView from './components/TransferView';
 
 import './index.css';
 
@@ -231,37 +214,53 @@ const AuthenticatedApp = () => {
       <div className="main-content-wrapper">
         <Routes>
           <Route path="/" element={<DashboardView />} />
+
+          {/* ── OPERATIONS MODULE ── */}
+          <Route path="/projects" element={<ComingSoon icon="📅" featureName="Gestion des Projets" description="Créez, planifiez et suivez tous vos projets événementiels en temps réel." />} />
+          <Route path="/calendar" element={<ComingSoon icon="📆" featureName="Calendrier" description="Vue calendrier unifiée de tous vos événements, réservations et plannings d'équipe." />} />
+          <Route path="/hr" element={<ComingSoon icon="👤" featureName="Ressources Humaines" description="Gérez les contrats, congés, paies et dossiers de tous vos employés." />} />
+          {/* ✅ MAGASIN / INVENTAIRE — ACTIF */}
           <Route path="/inventory" element={<InventoryList />} />
-          <Route path="/clients" element={<ClientView />} />
-          <Route path="/workers" element={<WorkersView />} />
-          <Route path="/projects" element={<ProjectList />} />
-          <Route path="/maintenance" element={<MaintenanceView />} />
-          <Route path="/transfers" element={<TransferView />} />
-          <Route path="/hr" element={<HRView />} />
+          <Route path="/inventory/new" element={<InventoryForm />} />
+          <Route path="/inventory/edit/:id" element={<InventoryForm />} />
+          <Route path="/flycases" element={<FlycaseScanner />} />
+          <Route path="/qr-codes" element={<QRCodeScreen />} />
+
+          {/* Contacts & Staff — Coming Soon */}
+          <Route path="/clients" element={<ComingSoon icon="👥" featureName="Clients" description="Base de données clients, historique des projets et gestion des contacts." />} />
+          <Route path="/workers" element={<ComingSoon icon="👷" featureName="Techniciens" description="Annuaire complet de vos techniciens avec compétences et disponibilités." />} />
+          <Route path="/freelancers" element={<ComingSoon icon="🎭" featureName="Freelancers" description="Gestion des prestataires indépendants, contrats et fiches de paie." />} />
+
+          {/* ✅ LOGISTIQUE — ACTIF */}
           <Route path="/drivers" element={<DriverView />} />
           <Route path="/carriers" element={<CarrierView />} />
+          <Route path="/vehicles" element={<VehicleView />} />
           <Route path="/delivery-notes" element={<DeliveryNoteList />} />
           <Route path="/delivery-notes/new" element={<DeliveryNoteForm />} />
           <Route path="/delivery-notes/edit/:id" element={<DeliveryNoteForm />} />
-          <Route path="/freelancers" element={<FreelancerView />} />
-          <Route path="/vehicles" element={<VehicleView />} />
-          <Route path="/calendar" element={<CalendarView />} />
-          <Route path="/audits" element={<AuditListView />} />
-          <Route path="/audits/:id" element={<AuditDetailView />} />
-          <Route path="/qr-codes" element={<QRCodeScreen />} />
-          <Route path="/quotes" element={<QuotesList />} />
-          <Route path="/quote-builder" element={<QuoteBuilder />} />
-          <Route path="/invoices" element={<InvoiceList />} />
-          <Route path="/invoice-builder" element={<InvoiceBuilder />} />
-          <Route path="/overdue" element={<OverdueInvoices />} />
-          <Route path="/reports" element={<FinancialReportsView />} />
-          <Route path="/fiscal" element={<FiscalDashboard />} />
-          <Route path="/settings" element={<SettingsView />} />
-          <Route path="/calculator" element={<StructureCalcView />} />
-          <Route path="/subcontracting" element={<SubcontractedManagement />} />
-          <Route path="/led-config" element={<LedConfigurator />} />
-          <Route path="/stage-calc" element={<StageConfigurator />} />
-          <Route path="/flycases" element={<FlycaseScanner />} />
+
+          {/* Equipment Operations */}
+          <Route path="/maintenance" element={<ComingSoon icon="🔧" featureName="Maintenance" description="Planification des maintenances préventives et correctives de votre matériel." />} />
+          <Route path="/transfers" element={<TransferView />} />
+          <Route path="/subcontracting" element={<ComingSoon icon="🤝" featureName="Sous-traitance" description="Gestion des prestataires externes et du matériel sous-traité." />} />
+
+          {/* System Tools */}
+          <Route path="/calculator" element={<ComingSoon icon="🧮" featureName="Calcul de Structure" description="Calculateur de charges et résistances pour vos structures scéniques." />} />
+          <Route path="/led-config" element={<ComingSoon icon="📺" featureName="Configurateur LED" description="Configurez et visualisez en 3D vos murs et scènes LED." />} />
+          <Route path="/stage-calc" element={<ComingSoon icon="🏗️" featureName="Stage Calculator" description="Calculateur de dimensions et de capacité pour vos scènes et podiums." />} />
+
+          {/* ── FINANCE MODULE ── */}
+          <Route path="/quotes" element={<ComingSoon icon="📝" featureName="Devis" description="Créez des devis professionnels et suivez leur validation par vos clients." />} />
+          <Route path="/quote-builder" element={<ComingSoon icon="✨" featureName="Quote Builder" description="Constructeur de devis avancé avec catalogue de prestations et tarifs." />} />
+          <Route path="/invoices" element={<ComingSoon icon="💶" featureName="Facturation" description="Émettez, envoyez et suivez toutes vos factures clients en quelques clics." />} />
+          <Route path="/invoice-builder" element={<ComingSoon icon="💶" featureName="Invoice Builder" description="Constructeur de factures avec personnalisation et calcul TVA automatique." />} />
+          <Route path="/overdue" element={<ComingSoon icon="⏰" featureName="Factures Impayées" description="Tableau de bord des factures en retard avec relances automatiques." />} />
+          <Route path="/reports" element={<ComingSoon icon="📈" featureName="Rapports Financiers" description="Analyses détaillées de votre chiffre d'affaires, marges et rentabilité." />} />
+          <Route path="/fiscal" element={<ComingSoon icon="⚖️" featureName="Tableau de Bord Fiscal" description="Suivi de votre situation fiscale, TVA collectée et déclarations." />} />
+          <Route path="/audits" element={<ComingSoon icon="📋" featureName="Audits" description="Journal d'audit complet de toutes les actions effectuées dans le système." />} />
+          <Route path="/audits/:id" element={<ComingSoon icon="📋" featureName="Détail Audit" description="Détails complets d'un événement d'audit spécifique." />} />
+          <Route path="/settings" element={<ComingSoon icon="⚙️" featureName="Paramètres" description="Configuration générale, utilisateurs, rôles et préférences de l'application." />} />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
